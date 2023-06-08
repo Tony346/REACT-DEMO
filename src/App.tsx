@@ -1,12 +1,49 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
+import { useEffect, useState } from "react";
+import "./App.scss";
 
 function App() {
-  // const [count, setCount] = useState(0)
-  const [is];
-  return <></>;
+  const [isShow, setIsShow] = useState<boolean>(false);
+  const handleClik = () => {
+    setIsShow(true);
+  };
+  const handleImgError = (e: any) => {
+    console.log("图片加载出错", e);
+  };
+  useEffect(() => {
+    window.addEventListener(
+      "error",
+      function (event) {
+        const target = event.target;
+        if (target instanceof HTMLImageElement) {
+          console.log("图片加载异常", target);
+        }
+      },
+      true
+    );
+  }, []);
+  return (
+    <>
+      <button onClick={handleClik}>点击出现弹窗</button>
+      {isShow && (
+        <div
+          className="mask"
+          onClick={() => {
+            setIsShow(false);
+          }}
+        >
+          <div className="main">
+            <span>弹窗出现了</span>
+            <img src="https://p4.ssl.qhimg.com/t019f326a5524ce5fcc.png" />
+            <img src="https://p5.ssl.qhimg.com/t0139228d9f6f26225c.png" />
+            <img
+              src="https://p5.ssl.qhimg.com/t01950dfde27027b6191.jpg"
+              onError={handleImgError}
+            />
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
 
 export default App;
